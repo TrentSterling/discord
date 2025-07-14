@@ -5,42 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrontDev Discord</title>
-    <meta name="description" content="The TrontDev Discord. A long-standing, high-signal community for developers working with Unity, VR, networking, and hardware.">
-
-    <!-- Open Graph / Twitter -->
+    <meta name="description" content="A high-signal development server active since 2015, focusing on game tech, VR, multiplayer, AI, and hardware.">
     <meta property="og:title" content="TrontDev Discord">
     <meta property="og:description" content="A high-signal backchannel for developers working on Unity, VR, networking, and hardware. Active since 2015.">
     <meta property="og:image" content="https://blog.tront.xyz/assets/img/tront.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-
-    <!-- JSON-LD Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "TrontDev Discord",
-      "url": "https://tront.xyz/discord",
-      "founder": { "@type": "Person", "name": "Trent 'Tront' Sterling" },
-      "keywords": "game development, virtual reality, Unity, multiplayer networking, C#, Godot, GPU, WebGPU, ESP32"
-    }
-    </script>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-color: #0d1117;
             --surface-color: #161b22;
-            --surface-hover: #1f242c;
+            --widget-bg-color: #1c2128;
             --border-color: #30363d;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --accent-teal: #33c6d8;
-            --accent-purple: #c774e8;
+            --text-primary: #e6edf3;
+            --text-secondary: #7d8590;
+            --accent-purple: #c874e8;
+            --accent-orange: #ff8b3d;
+            --accent-teal: #2ee6d7;
             --accent-blue: #58a6ff;
-            --accent-glow: rgba(88, 166, 255, 0.2);
+            --accent-pink: #ff79c6;
             --status-online: #23a55a;
             --status-idle: #f0b232;
             --status-dnd: #f23f43;
@@ -50,13 +36,20 @@
 
         @keyframes animated-grid {
             from { background-position: 0 0; }
-            to { background-position: -100px 0; }
+            to { background-position: -50px 0; }
         }
 
         @keyframes border-aurora {
-            0%   { border-image-source: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); }
-            50%  { border-image-source: linear-gradient(135deg, var(--accent-purple), var(--accent-teal)); }
-            100% { border-image-source: linear-gradient(135deg, var(--accent-teal), var(--accent-blue)); }
+            0%   { border-image-source: linear-gradient(145deg, var(--accent-purple), var(--accent-orange)); }
+            33%  { border-image-source: linear-gradient(145deg, var(--accent-orange), var(--accent-teal)); }
+            66%  { border-image-source: linear-gradient(145deg, var(--accent-teal), var(--accent-pink)); }
+            100% { border-image-source: linear-gradient(145deg, var(--accent-pink), var(--accent-purple)); }
+        }
+
+        @keyframes background-aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         *, *::before, *::after { box-sizing: border-box; }
@@ -66,78 +59,206 @@
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
-            padding: 2em 1em;
+            padding: 2rem 1rem;
             min-height: 100vh;
             background-image:
-                linear-gradient(rgba(48, 54, 61, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(48, 54, 61, 0.3) 1px, transparent 1px);
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
             background-size: 50px 50px;
-            animation: animated-grid 4s linear infinite;
+            animation: animated-grid 3s linear infinite;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-logo {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
         }
 
         .container {
-            width: 100%;
-            max-width: 1280px;
-            margin: 1em auto;
+            max-width: 1100px;
+            margin: 0 auto;
             background-color: var(--surface-color);
             border: 2px solid;
             border-image-slice: 1;
-            animation: border-aurora 5s linear infinite;
+            animation: border-aurora 6s linear infinite;
             border-radius: 8px;
-            padding: 3em 4em;
+            padding: 2.5rem 3.5rem;
         }
-        
-        .main-grid { display: grid; grid-template-columns: 1fr; gap: 3em 4em; }
-        h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3rem); color: #fff; margin: 0 0 0.5em 0; font-weight: 500; line-height: 1.3; }
-        p { line-height: 1.7; margin: 0 0 1.5em 0; max-width: 65ch; }
-        h2 {
-            font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-secondary);
-            letter-spacing: 1.5px; text-transform: uppercase; margin: 2em 0 1.5em 0;
-            padding-bottom: 0.75em; border-bottom: 1px solid var(--border-color);
-        }
-        .tech-list { list-style: none; padding: 0; margin: 0; }
-        .tech-list li { margin-bottom: 1.2em; color: var(--text-secondary); line-height: 1.5; }
-        .tech-list .key { color: var(--text-primary); font-weight: 600; }
 
-        .discord-preview-section { grid-column: 1 / -1; }
-        .discord-preview { background-color: var(--bg-color); padding: 2em; border-radius: 6px; border: 1px solid var(--border-color); }
-        .discord-preview-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 1.5em; gap: 1em; }
-        .discord-preview-header h3 { margin: 0; font-family: var(--font-display); font-size: 1.25rem; color: var(--text-primary); }
-        .discord-preview-header .online-count { font-size: 0.8rem; font-family: var(--font-display); color: var(--accent-blue); font-weight: 700; letter-spacing: 0.5px; }
-        
-        .discord-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1em; list-style: none; padding: 0; margin: 0; }
-        .user-card {
-            background: var(--surface-color); border-radius: 6px; padding: 0.75em;
-            display: flex; align-items: center; font-size: 0.9em;
-            position: relative; transition: transform 0.2s ease, background-color 0.2s ease;
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem 4rem;
         }
-        .user-card--more { justify-content: center; font-family: var(--font-display); color: var(--text-secondary); }
-        .user-card:not(.user-card--more):hover { transform: translateY(-3px); background-color: var(--surface-hover); cursor: pointer; }
+
+        @media (min-width: 960px) {
+            .layout-grid {
+                grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr);
+            }
+        }
         
-        .avatar-wrapper { position: relative; margin-right: 0.8em; flex-shrink: 0; }
-        .avatar { display: block; width: 40px; height: 40px; border-radius: 50%; }
+        .main-content h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            line-height: 1.3;
+        }
+
+        .main-content p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-width: 60ch;
+            margin: 0 0 2rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-image: linear-gradient(90deg, var(--accent-purple), var(--accent-orange), var(--accent-teal), var(--accent-pink), var(--accent-purple));
+            background-size: 400% 100%;
+            transition: all 0.4s ease;
+            animation: background-aurora 8s linear infinite;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .section-header {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin: 2.5rem 0 1.5rem 0;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .sidebar .section-header { margin-top: 0; }
+        .sidebar-list { list-style: none; padding: 0; margin: 0; }
+        .sidebar-list li { margin-bottom: 1.5rem; }
+        .sidebar-list .key {
+            display: flex;
+            align-items: center;
+            gap: 0.75em;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        .sidebar-list p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin: 0;
+            padding-left: calc(1em + 0.75em);
+        }
+        
+        .topic-vr .key { color: var(--accent-orange); }
+        .topic-ai .key { color: var(--accent-blue); }
+        .topic-hw .key { color: var(--accent-pink); }
+        .topic-tools .key { color: var(--accent-teal); }
+        
+        .live-preview-section { grid-column: 1 / -1; margin-top: 1rem; }
+
+        .discord-preview-container {
+            background-color: var(--widget-bg-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+        }
+        .discord-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0 0.5rem;
+        }
+        .discord-preview-header h3 {
+            margin: 0;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .discord-preview-header .online-count {
+            font-size: 0.8rem;
+            font-family: var(--font-display);
+            color: var(--accent-purple);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .discord-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0.75rem;
+            list-style: none; padding: 0; margin: 0;
+        }
+        .user-card {
+            background: var(--surface-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .user-card--more { cursor: default; }
+        .user-card:not(.user-card--more):hover { background-color: #2a2f37; }
+        
+        .avatar-wrapper { position: relative; flex-shrink: 0; }
+        .avatar { display: block; width: 36px; height: 36px; border-radius: 50%; }
         .status-dot {
             position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px;
             border-radius: 50%; border: 3px solid var(--surface-color);
         }
-        .status-online { background-color: var(--status-online); }
-        .status-idle { background-color: var(--status-idle); }
-        .status-dnd { background-color: var(--status-dnd); }
+        .status-dot.online { background-color: var(--status-online); }
+        .status-dot.idle { background-color: var(--status-idle); }
+        .status-dot.dnd { background-color: var(--status-dnd); }
 
         .user-info { overflow: hidden; }
-        .username { color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-status { font-size: 0.85em; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .username {
+            font-weight: 500; white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis; font-size: 0.9rem; margin-bottom: 0.1rem;
+        }
+        .username.online { color: var(--status-online); }
+        .username.idle { color: var(--status-idle); }
+        .username.dnd { color: var(--status-dnd); }
+
+        .user-status {
+            font-size: 0.8rem; color: var(--text-secondary); white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis;
+        }
         
         .hover-card {
             opacity: 0; visibility: hidden;
-            position: absolute; bottom: calc(100% + 10px); left: 0;
+            position: absolute; bottom: calc(100% + 8px); left: 0;
             transform: translateY(5px);
-            background-color: #1c1f26; color: var(--text-primary);
+            background-color: #1c1f26;
             padding: 1em; border-radius: 6px;
             width: max-content; max-width: 280px;
             z-index: 10; border: 1px solid var(--border-color);
             transition: all 0.2s ease-in-out;
-            pointer-events: none; display: flex; align-items: flex-start; gap: 1em;
+            pointer-events: none;
+            display: flex; align-items: flex-start; gap: 1em;
             box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
         .user-card:hover .hover-card { opacity: 1; visibility: visible; transform: translateY(0); }
@@ -145,132 +266,154 @@
         .hover-card-info { text-align: left; }
         .hover-card .full-username { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 0.5em; }
         .hover-card .full-status { font-size: 0.9em; margin-bottom: 0.25em; }
-        .hover-card .status-key { color: var(--text-secondary); font-weight: 600; }
+        .hover-card .status-key { color: var(--text-secondary); }
+        
+        .page-footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 2.5rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+        .footer-links a:hover {
+            color: var(--accent-purple);
+            text-decoration: underline;
+        }
 
-        .footer-cta { margin-top: 3em; text-align: center; }
-        .join-button {
-            display: inline-block; background-color: var(--accent-blue); color: #000;
-            font-family: var(--font-display); font-size: 1.1rem; font-weight: 700;
-            text-decoration: none; padding: 12px 40px; border-radius: 6px;
-            transition: all 0.2s ease-in-out; cursor: pointer;
-        }
-        .join-button:hover { background-color: #80bfff; transform: translateY(-2px); box-shadow: 0 4px 20px var(--accent-glow); }
-
-        @media (max-width: 1000px) {
-             .container { padding: 1.5em; }
-        }
-        @media (min-width: 960px) {
-            .main-grid { grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr); }
-        }
+        @media (max-width: 960px) { .container { padding: 1.5rem; } }
     </style>
 </head>
 <body>
+    
+    <header class="page-header">
+        <img src="https://blog.tront.xyz/assets/img/tront.png" alt="TrontDev Logo" class="header-logo">
+    </header>
 
     <main class="container">
-        <div class="main-grid">
+        <div class="layout-grid">
             <div class="main-content">
                 <h1>A dev server that's been active since 2015.</h1>
-                <p>
-                    This started as a practical solution: a bunch of us left Skype for a better platform to talk shop. It’s been our high-signal backchannel for everything game tech ever since.
-                </p>
-            
-                <h2>SIGNAL // NOISE</h2>
-                <p>
-                    This is a place for developers who are actively building. The conversations are technical. We share code, debug complex systems, and explore new hardware and software. It's less about tutorials and more about solving the problems that don't have documented answers yet.
-                </p>
+                <p>This started as a practical solution: a bunch of us left Skype for a better platform to talk shop. It’s been our high-signal backchannel for everything game tech ever since. We're a community of seriously skilled devs, including successful studios, indie creators, and professionals.</p>
+                <a href="https://discord.gg/0hyoWZyM6y7kkFCN" class="cta-button" target="_blank" rel="noopener noreferrer">Join the Discord</a>
+
+                <h2 class="section-header">SIGNAL // NOISE</h2>
+                <p>This is a place for developers who are actively building. The conversations are technical. We share code, debug complex systems, and explore new hardware and software. It's less about tutorials and more about solving the problems that don't have documented answers yet. Whether you’re making bank or just starting out, you’ll find your place here if you're serious about the craft.</p>
             </div>
             
             <aside class="sidebar">
-                <h2>CORE CHANNELS</h2>
-                <ul class="tech-list">
-                    <li><span class="key">Engines:</span> Unity, Godot, Custom C++</li>
-                    <li><span class="key">GPU:</span> Compute Shaders, WebGPU, Vulkan</li>
-                    <li><span class="key">VR/XR:</span> 120Hz+ Optimization, Interaction Models</li>
-                    <li><span class="key">Networking:</span> FishNet, Mirror, Authoritative Stacks</li>
-                    <li><span class="key">Hardware:</span> ESP32/Arduino, Sensor Fusion, IoT</li>
-                    <li><span class="key">Generative:</span> LLM-based Tooling, Proc-Gen</li>
+                <h2 class="section-header">WHAT WE COVER</h2>
+                <ul class="sidebar-list">
+                    <li class="topic-vr"><div class="key">🔥 Multiplayer & VR Focus</div><p>Discussions on networking, crossplay, VR optimization, and high-performance game mechanics.</p></li>
+                    <li class="topic-ai"><div class="key">🤖 AI & LLM Exploration</div><p>Conversations on AI-generated art, procedural content, and machine learning for game dev.</p></li>
+                    <li class="topic-hw"><div class="key">🦾 Hardware & IoT</div><p>Talk shop about ESP8266/32, Arduino, home automation, and game-related hardware projects.</p></li>
+                    <li class="topic-tools"><div class="key">🛠️ Tech & Tools</div><p>Insights on Unity, C#, Godot, shaders, performance optimization, and emerging development techniques.</p></li>
                 </ul>
             </aside>
-
-            <div class="discord-preview-section">
-                <h2>LIVE SERVER PREVIEW</h2>
-                 <div class="discord-preview" id="discord-preview">
-                    <p>Connecting to Discord API...</p>
-                </div>
-            </div>
-        </div>
         
-        <footer class="footer-cta">
-            <a href="https://discord.gg/0hyoWZyM6y7kkFCN" class="join-button" target="_blank" rel="noopener noreferrer">Join The Server</a>
-        </footer>
+            <section class="live-preview-section">
+                <h2 class="section-header">LIVE SERVER PREVIEW</h2>
+                <div class="discord-preview-container" id="widget-container">
+                    <p style="text-align: center; color: var(--text-secondary);">Loading Live Preview...</p>
+                </div>
+            </section>
+            
+            <footer class="page-footer">
+                <a href="https://discord.gg/0hyoWZyM6y7kkFCN" class="cta-button" target="_blank" rel="noopener noreferrer">Join the Discord</a>
+                <div class="footer-links">
+                     <a href="https://tront.xyz" target="_blank" rel="noopener noreferrer">tront.xyz</a>
+                     <a href="https://github.com/trentsterling" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </div>
+            </footer>
+        </div>
     </main>
 
-  <script>
+    <script>
     (function() {
-      const WIDGET_URL = 'https://discord.com/api/guilds/126995334109986817/widget.json';
-      const previewContainer = document.getElementById('discord-preview');
-      if (!previewContainer) return;
+        const WIDGET_URL = 'https://discord.com/api/guilds/126995334109986817/widget.json';
+        const widgetContainer = document.getElementById('widget-container');
 
-      fetch(WIDGET_URL)
-        .then(response => {
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          return response.json();
-        })
-        .then(data => {
-          if (!data || !data.members) throw new Error('Invalid data from Discord API.');
-          
-          const onlineCount = data.presence_count || 0;
-          const members = data.members || [];
-          
-          let membersHTML = members.map(member => {
-            const status = member.status || 'offline';
-            const gameName = member.game ? member.game.name : '';
-            const mainStatusText = gameName || status;
+        const fetchWidgetData = async () => {
+            try {
+                const response = await fetch(WIDGET_URL);
+                if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+                const data = await response.json();
+                renderWidget(data);
+            } catch (error) {
+                console.error('Failed to fetch Discord widget data:', error);
+                widgetContainer.innerHTML = `<p style="text-align: center; color: var(--text-secondary);">Live preview is currently unavailable. Please <a href="https://discord.gg/0hyoWZyM6y7kkFCN" target="_blank" rel="noopener noreferrer" style="color: var(--accent-purple);">join directly</a>.</p>`;
+            }
+        };
+
+        const renderWidget = (data) => {
+            const { name, presence_count, members } = data;
+            const memberList = members.slice(0, 50);
+
+            const memberCardsHTML = memberList.map(member => {
+                const { username, avatar_url, status, game } = member;
+                const gameName = game ? game.name : null;
+                
+                const mainStatusText = gameName ? gameName : `Status: ${status}`;
+                
+                let hoverStatusHTML = `<div class="full-status"><span class="status-key">Status:</span> ${status}</div>`;
+                if (gameName) {
+                    hoverStatusHTML += `<div class="full-status"><span class="status-key">Playing:</span> ${gameName}</div>`;
+                }
+
+                return `
+                    <li class="user-card">
+                        <div class="avatar-wrapper">
+                            <img src="${avatar_url}" alt="${username}" class="avatar" loading="lazy" width="36" height="36">
+                            <span class="status-dot ${status}"></span>
+                        </div>
+                        <div class="user-info">
+                            <div class="username ${status}" title="${username}">${username}</div>
+                            <div class="user-status" title="${mainStatusText}">${mainStatusText}</div>
+                        </div>
+                        <div class="hover-card">
+                            <img src="${avatar_url}" alt="" class="full-avatar" loading="lazy" width="64" height="64">
+                            <div class="hover-card-info">
+                                <div class="full-username">${username}</div>
+                                ${hoverStatusHTML}
+                            </div>
+                        </div>
+                    </li>
+                `;
+            }).join('');
             
-            let hoverStatusHTML = `<div class="full-status"><span class="status-key">Status:</span> ${status}</div>`;
-            if (gameName) {
-              hoverStatusHTML = `<div class="full-status"><span class="status-key">Playing:</span> ${gameName}</div>`;
+            let moreUsersHTML = '';
+            const remainingCount = presence_count - memberList.length;
+            if (remainingCount > 0) {
+                 moreUsersHTML = `<li class="user-card user-card--more" style="justify-content: center; color: var(--text-secondary); font-family: var(--font-display); cursor: default;">+${remainingCount} more online...</li>`;
             }
 
-            return `
-              <li class="user-card">
-                <div class="avatar-wrapper">
-                    <img src="${member.avatar_url}" alt="${member.username}'s avatar" class="avatar" loading="lazy" width="40" height="40">
-                    <span class="status-dot status-${status}"></span>
+            const widgetHTML = `
+                <div class="discord-preview-header">
+                    <h3>${name}</h3>
+                    <div class="online-count">${presence_count} ONLINE</div>
                 </div>
-                <div class="user-info">
-                  <div class="username" title="${member.username}">${member.username}</div>
-                  <div class="user-status" title="${mainStatusText}">${mainStatusText}</div>
-                </div>
-                <div class="hover-card">
-                    <img src="${member.avatar_url}" alt="" class="full-avatar" loading="lazy" width="64" height="64">
-                    <div class="hover-card-info">
-                        <div class="full-username">${member.username}</div>
-                        ${hoverStatusHTML}
-                    </div>
-                </div>
-              </li>`;
-          }).join('');
+                <ul class="discord-grid">
+                    ${memberCardsHTML}
+                    ${moreUsersHTML}
+                </ul>
+            `;
+            
+            widgetContainer.innerHTML = widgetHTML;
+        };
 
-          // Add the "+X more" card if needed
-          const remainingCount = onlineCount - members.length;
-          if (remainingCount > 0) {
-            membersHTML += `<li class="user-card user-card--more">+${remainingCount} more online...</li>`;
-          }
-
-          previewContainer.innerHTML = `
-            <div class="discord-preview-header">
-                <h3>${data.name || 'TrontDev'}</h3>
-                <div class="online-count">${onlineCount} ONLINE</div>
-            </div>
-            <ul class="discord-grid">${membersHTML}</ul>`;
-        })
-        .catch(error => {
-          console.error('Failed to fetch Discord widget:', error);
-          previewContainer.innerHTML = `<p style="color:var(--text-secondary);">Live preview failed to load. The Discord API might be unavailable. <a href='https://discord.gg/0hyoWZyM6y7kkFCN' target='_blank' rel='noopener noreferrer' style='color:var(--accent-blue)'>Use the invite link directly.</a></p>`;
-        });
+        fetchWidgetData();
     })();
-  </script>
+    </script>
 
 </body>
 </html>
